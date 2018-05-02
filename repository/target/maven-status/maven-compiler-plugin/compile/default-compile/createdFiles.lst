@@ -1,0 +1,7 @@
+com\cpu\user\User.class
+com\cpu\user\UserRepository.class
+com\cpu\comments\Comment.class
+com\cpu\post\PostRepository.class
+com\cpu\post\Post.class
+com\cpu\AuditTrail.class
+com\cpu\comments\CommentRepository.class
