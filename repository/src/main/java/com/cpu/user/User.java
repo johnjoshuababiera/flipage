@@ -6,18 +6,19 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class User extends AuditTrail {
-    private String email;
-    private String department;
+public class User extends AuditTrail{
     private String username;
+    private String idNumber;
+    private String email;
+    private String image;
+    private String department;
     private String password;
-    //1 admin, 2 user
-    private int role;
+    private boolean isAdmin;
 }

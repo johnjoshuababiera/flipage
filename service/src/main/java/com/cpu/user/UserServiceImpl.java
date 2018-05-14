@@ -20,23 +20,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user) {
-        encryptPassword(user);
-        return repository.save(user);
-    }
-
-    @Override
-    public User validateUser(String username, String password) {
-        User user = repository.findByUsername(username);
-        if(user!=null && PASSWORD_ENCODER.matches(password,user.getPassword())){
-            return user;
+    public User save(User user) throws Exception {
+        if(!hasDuplicate(user)){
+            encryptPassword(user);
+            return repository.save(user);
         }
         return null;
     }
 
+
     @Override
-    public void remove(long id) {
-        repository.deleteById(id);
+    public User updateUser(User user) throws Exception {
+        User savedUser = repository.findById(user.getId()).get();
+        if(!hasDuplicate(user)){
+            savedUser.setUsername(user.getUsername());
+            savedUser.setAdmin(user.isAdmin());
+            savedUser.setDepartment(user.getDepartment());
+            savedUser.setIdNumber(user.getIdNumber());
+            savedUser.setImage(user.getImage());
+            savedUser.setEmail(user.getEmail());
+        }
+        return null;
+
     }
 
     @Override
@@ -51,6 +56,16 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
+    @Override
+    public User getUser(String userName, String password) {
+        User user = repository.findByUsername(userName);
+        if(user!=null && PASSWORD_ENCODER.matches(password,user.getPassword())){
+            return user;
+        }
+        return null;
+    }
+
 
     private boolean duplicate(User user, User duplicate) {
         return duplicate!=null && duplicate.getId()==user.getId();

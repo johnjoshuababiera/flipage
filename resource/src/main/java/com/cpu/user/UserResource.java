@@ -12,24 +12,23 @@ public class UserResource {
     @Autowired
     private UserService service;
 
-    @PostMapping("/save")
-    public User create(@RequestBody User user){
+    @PostMapping("/createUser")
+    public User create(@RequestBody User user) throws Exception {
         return service.save(user);
     }
 
+    @PostMapping("/updateUser")
+    public User update(@RequestBody User user) throws Exception {
+        return service.updateUser(user);
+    }
     @GetMapping(value="/findById")
     public User findStudent(@RequestParam long id){
         return service.findOne(id);
     }
 
-
-    @GetMapping(value = "/remove")
-    public void remove(@RequestParam long id) {
-        service.remove(id);
+    @GetMapping(value="/getUser")
+    public User getUser(String userName, String password){
+        return service.getUser(userName,password);
     }
 
-    @PostMapping(value="/hasDuplicate")
-    public boolean hasDuplicate(@RequestBody User user) throws Exception {
-        return service.hasDuplicate(user);
-    }
 }

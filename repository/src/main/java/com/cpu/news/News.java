@@ -1,4 +1,4 @@
-package com.cpu.post;
+package com.cpu.news;
 
 import com.cpu.AuditTrail;
 import com.cpu.comments.Comment;
@@ -7,7 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,10 +16,17 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class Post extends AuditTrail{
+public class News extends AuditTrail {
     private String title;
-    private String content;
-    private long userId;
-    private String username;
+    private String filePath;
+    @OneToMany
     private List<Comment> comments;
+
+
+    public List<Comment> getComments() {
+        if(comments==null){
+            comments=new ArrayList<>();
+        }
+        return comments;
+    }
 }

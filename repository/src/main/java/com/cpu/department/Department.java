@@ -1,21 +1,16 @@
-package com.cpu.comments;
+package com.cpu.department;
 
 import com.cpu.AuditTrail;
-import com.cpu.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class Comment extends AuditTrail{
-    @OneToOne
-    private User user;
-    private String message;
+public class Department extends AuditTrail {
 }
