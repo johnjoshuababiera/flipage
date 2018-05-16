@@ -2,6 +2,7 @@ package com.cpu.news;
 
 import com.cpu.AuditTrail;
 import com.cpu.comments.Comment;
+import com.cpu.department.Department;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,6 +20,8 @@ import java.util.List;
 public class News extends AuditTrail {
     private String title;
     private String filePath;
+    @OneToOne
+    private Department department;
     @OneToMany
     private List<Comment> comments;
 

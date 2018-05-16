@@ -20,4 +20,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<Department> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public Department findOne(long id) {
+        return repository.findById(id).get();
+    }
 }

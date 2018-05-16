@@ -10,7 +10,9 @@ import javax.persistence.Entity;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = true)
 public class Department extends AuditTrail {
+    private String name;
 }
