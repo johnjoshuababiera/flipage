@@ -1,6 +1,7 @@
 package com.cpu.news.controller;
 
 
+import com.cpu.department.DepartmentService;
 import com.cpu.news.News;
 import com.cpu.news.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class NewsController {
     @Autowired
     private NewsService service;
 
+    @Autowired
+    private DepartmentService departmentService;
+
     @Value("${flipage.file.url}")
     private String FILE_URL;
 
@@ -41,6 +45,7 @@ public class NewsController {
     @RequestMapping("/create")
     public String create(Model model) {
         News news = new News();
+        model.addAttribute("departments", departmentService.findAll());
         model.addAttribute("news",news);
         return "news/news_form";
     }
@@ -50,7 +55,12 @@ public class NewsController {
         News news = service.findOne(id);
         model.addAttribute("news",news);
         return "news/news_view";
+    }
 
+    @RequestMapping("/delete")
+    public String delete(@RequestParam long id, RedirectAttributes redir){
+        service.delete(id);
+        return "redirect:/page/news/";
     }
 
     @PostMapping("/save")
@@ -64,7 +74,8 @@ public class NewsController {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(FILE_URL + file.getOriginalFilename());
             Files.write(path, bytes);
-            news.setFilePath(FILE_URL+file.getOriginalFilename());
+            news.setFilePath(file.getOriginalFilename());
+            news.setDepartment(departmentService.findOne(news.getDepartmentId()));
             service.save(news);
             redirectAttributes.addFlashAttribute("info",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");

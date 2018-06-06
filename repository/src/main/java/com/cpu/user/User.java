@@ -17,6 +17,7 @@ public class User extends AuditTrail{
     private String username;
     private String idNumber;
     private String email;
+    @Lob
     private String image;
     private String department;
     private String password;

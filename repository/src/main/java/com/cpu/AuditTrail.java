@@ -15,10 +15,7 @@ public class AuditTrail {
 	@Version
 	private long version;
 	private boolean active = true;
-	private long createdBy;
 	private long dateCreated;
-	private Long modifiedBy;
-	private Long dateModified;
-	
+
 
 }

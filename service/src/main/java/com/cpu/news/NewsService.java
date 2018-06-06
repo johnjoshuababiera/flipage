@@ -8,5 +8,6 @@ public interface NewsService {
     News save(News news);
     List<News> findAll();
     News findOne(long id);
-    News addComment(long newsId, Comment comment);
+    void delete(long id);
+    Comment addComment(Comment comment);
 }

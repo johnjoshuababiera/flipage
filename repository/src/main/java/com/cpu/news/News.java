@@ -3,6 +3,7 @@ package com.cpu.news;
 import com.cpu.AuditTrail;
 import com.cpu.comments.Comment;
 import com.cpu.department.Department;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,8 +23,14 @@ public class News extends AuditTrail {
     private String filePath;
     @OneToOne
     private Department department;
-    @OneToMany
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Comment> comments;
+    @Lob
+    private String image;
+
+    @JsonIgnore
+    @Transient
+    private long departmentId;
 
 
     public List<Comment> getComments() {

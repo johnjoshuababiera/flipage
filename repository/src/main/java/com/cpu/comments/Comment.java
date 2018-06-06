@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 public class Comment extends AuditTrail{
+    private long newsId;
     @OneToOne
     private User user;
     private String message;

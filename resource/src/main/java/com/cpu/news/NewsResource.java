@@ -14,7 +14,7 @@ public class NewsResource {
     @Autowired
     private NewsService service;
 
-    @PostMapping("/createNews")
+    @PostMapping("/save")
     public News create(@RequestBody News news){
         return service.save(news);
     }
@@ -24,8 +24,8 @@ public class NewsResource {
         return service.findAll();
     }
 
-    @GetMapping("/addComment")
-    public News addComment(long newsId, Comment comment){
-        return service.addComment(newsId,comment);
+    @PostMapping("/addComment")
+    public Comment addComment(@RequestBody Comment comment){
+        return service.addComment(comment);
     }
 }
