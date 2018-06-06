@@ -1,7 +1,9 @@
 A:\Projects\flipage\repository\src\main\java\com\cpu\AuditTrail.java
-A:\Projects\flipage\repository\src\main\java\com\cpu\post\PostRepository.java
+A:\Projects\flipage\repository\src\main\java\com\cpu\department\DepartmentRepository.java
+A:\Projects\flipage\repository\src\main\java\com\cpu\department\Department.java
+A:\Projects\flipage\repository\src\main\java\com\cpu\news\News.java
 A:\Projects\flipage\repository\src\main\java\com\cpu\user\User.java
 A:\Projects\flipage\repository\src\main\java\com\cpu\comments\Comment.java
 A:\Projects\flipage\repository\src\main\java\com\cpu\comments\CommentRepository.java
-A:\Projects\flipage\repository\src\main\java\com\cpu\post\Post.java
+A:\Projects\flipage\repository\src\main\java\com\cpu\news\NewsRepository.java
 A:\Projects\flipage\repository\src\main\java\com\cpu\user\UserRepository.java

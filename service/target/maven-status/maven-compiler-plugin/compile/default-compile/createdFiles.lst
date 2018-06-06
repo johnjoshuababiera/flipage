@@ -1,4 +1,6 @@
-com\cpu\post\PostServiceImpl.class
 com\cpu\user\UserService.class
-com\cpu\post\PostService.class
 com\cpu\user\UserServiceImpl.class
+com\cpu\news\NewsService.class
+com\cpu\news\NewsServiceImpl.class
+com\cpu\department\DepartmentService.class
+com\cpu\department\DepartmentServiceImpl.class

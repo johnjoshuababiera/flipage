@@ -1,7 +1,9 @@
+com\cpu\news\News.class
 com\cpu\user\User.class
 com\cpu\user\UserRepository.class
 com\cpu\comments\Comment.class
-com\cpu\post\PostRepository.class
-com\cpu\post\Post.class
+com\cpu\department\DepartmentRepository.class
+com\cpu\department\Department.class
 com\cpu\AuditTrail.class
 com\cpu\comments\CommentRepository.class
+com\cpu\news\NewsRepository.class

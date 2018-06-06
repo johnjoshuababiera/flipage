@@ -52,7 +52,7 @@ if exist "%HOME%\mavenrc_pre.cmd" call "%HOME%\mavenrc_pre.cmd"
 
 set ERROR_CODE=0
 
-@REM To isolate internal variables from possible post scripts, we use another setlocal
+@REM To isolate internal variables from possible news scripts, we use another setlocal
 @setlocal
 
 @REM ==== START VALIDATION ====
@@ -129,11 +129,11 @@ set ERROR_CODE=1
 :end
 @endlocal & set ERROR_CODE=%ERROR_CODE%
 
-if not "%MAVEN_SKIP_RC%" == "" goto skipRcPost
-@REM check for post script, once with legacy .bat ending and once with .cmd ending
-if exist "%HOME%\mavenrc_post.bat" call "%HOME%\mavenrc_post.bat"
-if exist "%HOME%\mavenrc_post.cmd" call "%HOME%\mavenrc_post.cmd"
-:skipRcPost
+if not "%MAVEN_SKIP_RC%" == "" goto skipRcNews
+@REM check for news script, once with legacy .bat ending and once with .cmd ending
+if exist "%HOME%\mavenrc_news.bat" call "%HOME%\mavenrc_news.bat"
+if exist "%HOME%\mavenrc_news.cmd" call "%HOME%\mavenrc_news.cmd"
+:skipRcNews
 
 @REM pause the script if MAVEN_BATCH_PAUSE is set to 'on'
 if "%MAVEN_BATCH_PAUSE%" == "on" pause
