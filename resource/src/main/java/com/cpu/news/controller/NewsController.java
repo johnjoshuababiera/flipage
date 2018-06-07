@@ -57,6 +57,15 @@ public class NewsController {
         return "news/news_view";
     }
 
+
+    @RequestMapping("/edit")
+    public String edit(@RequestParam long id, Model model){
+        News news = service.findOne(id);
+        model.addAttribute("news",news);
+        model.addAttribute("departments", departmentService.findAll());
+        return "news/news_form";
+    }
+
     @RequestMapping("/delete")
     public String delete(@RequestParam long id, RedirectAttributes redir){
         service.delete(id);

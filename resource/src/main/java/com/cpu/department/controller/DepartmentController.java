@@ -39,4 +39,11 @@ public class DepartmentController
         return "redirect:/page/department/";
 
     }
+
+
+    @RequestMapping("/delete")
+    public String delete(@RequestParam long id, RedirectAttributes redir){
+        service.delete(id);
+        return "redirect:/page/department/";
+    }
 }

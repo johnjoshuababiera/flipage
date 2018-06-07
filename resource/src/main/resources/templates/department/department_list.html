@@ -63,11 +63,14 @@
                     <thead>
                     <tr>
                         <th>Name</th>
+                        <th class="nosort"></th>
+
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="department : ${departments}">
                         <td th:text="${department.name}"></td>
+                        <td><a th:href="@{/page/department/delete(id=${department.id})}" class="btn btn-warning">Delete</a></td>
                     </tr>
                     </tbody>
                 </table>
@@ -115,7 +118,7 @@
         $(document).ready(function () {
             var table = $('#newsTable').dataTable({
                 "columnDefs": [
-                    { "width": "30%", "targets": 1 }
+                    { "width": "10%", "targets": 0 }
                 ]
             });
         });
