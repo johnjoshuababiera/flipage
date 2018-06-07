@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) throws Exception {
-        User savedUser = repository.findById(user.getId()).get();
+        User savedUser = repository.getOne(user.getId());
         if(!hasDuplicate(user)){
             savedUser.setUsername(user.getUsername());
             savedUser.setAdmin(user.isAdmin());
