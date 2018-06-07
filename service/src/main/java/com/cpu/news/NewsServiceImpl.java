@@ -44,11 +44,10 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Comment addComment(Comment comment) {
+    public News addComment(Comment comment) {
         News news = repository.getOne(comment.getNewsId());
         news.getComments().add(comment);
-        repository.save(news);
-        return comment;
+        return repository.save(news);
     }
 
 }
