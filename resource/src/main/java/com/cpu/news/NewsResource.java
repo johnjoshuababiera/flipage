@@ -25,7 +25,7 @@ public class NewsResource {
     }
 
     @PostMapping("/addComment")
-    public Comment addComment(@RequestBody Comment comment){
+    public News addComment(@RequestBody Comment comment){
         return service.addComment(comment);
     }
 }

@@ -9,5 +9,5 @@ public interface NewsService {
     List<News> findAll();
     News findOne(long id);
     void delete(long id);
-    Comment addComment(Comment comment);
+    News addComment(Comment comment);
 }
