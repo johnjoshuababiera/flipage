@@ -1,9 +1,8 @@
-package com.cpu.news;
+package com.cpu.post;
 
 import com.cpu.AuditTrail;
 import com.cpu.comments.Comment;
 import com.cpu.department.Department;
-import com.cpu.topic.Topic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,26 +18,24 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class News extends AuditTrail {
+public class Post extends AuditTrail{
+
     private String title;
-    private String filePath;
     @OneToOne
     private Department department;
-    @OneToMany
-    @JoinColumn
-    private List<Topic> topics;
-    @Lob
-    private String image;
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<Comment> comments;
 
     @JsonIgnore
     @Transient
-    private Long departmentId;
+    private long departmentId;
 
 
-    public List<Topic> getTopics() {
-        if(topics==null){
-            topics=new ArrayList<>();
+    public List<Comment> getComments() {
+        if(comments==null){
+            comments=new ArrayList<>();
         }
-        return topics;
+        return comments;
     }
+
 }

@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         if(!hasDuplicate(user)){
             encryptPassword(user);
             return repository.save(user);
-        }
+    }
         return null;
     }
 
@@ -45,7 +45,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean noAdmin() {
+        List<User> adminUsers = repository.findByAdminIsTrue();
+        return adminUsers==null || adminUsers.isEmpty();
+    }
+
+    @Override
+    public void initializeAdmin() throws Exception {
+        User user = new User();
+        user.setAdmin(true);
+        user.setUsername("admin");
+        user.setPassword("adminPassword");
+        save(user);
+    }
+
+    @Override
     public boolean hasDuplicate(User user) throws Exception {
+        User duplicateIdNo = repository.findByIdNumber(user.getIdNumber());
+        if(duplicate(user, duplicateIdNo)){
+            throw new Exception("ID number is already in used!");
+        }
         User duplicate = repository.findByUsername(user.getUsername());
         if(duplicate(user, duplicate)){
             throw new Exception("Duplicate username!");

@@ -7,6 +7,7 @@ public interface UserService {
     User save(User user) throws Exception;
     boolean hasDuplicate(User user) throws Exception;
     User getUser(String userName, String password);
-
     User updateUser(User user) throws Exception;
+    boolean noAdmin();
+    void initializeAdmin() throws Exception;
 }

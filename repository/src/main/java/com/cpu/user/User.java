@@ -21,5 +21,5 @@ public class User extends AuditTrail{
     private String image;
     private String department;
     private String password;
-    private boolean isAdmin;
+    private boolean admin=false;
 }

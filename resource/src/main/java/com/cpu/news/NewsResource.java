@@ -23,9 +23,4 @@ public class NewsResource {
     public List<News> fetchAllNews(){
         return service.findAll();
     }
-
-    @PostMapping("/addComment")
-    public News addComment(@RequestBody Comment comment){
-        return service.addComment(comment);
-    }
 }
