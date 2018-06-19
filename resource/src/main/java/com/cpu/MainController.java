@@ -29,4 +29,21 @@ public class MainController {
 //        }
 //        return null;
     }
+
+    @RequestMapping("/login")
+    public String login() {
+//        try {
+//            if(userService.noAdmin()){
+//                userService.initializeAdmin();
+//        }
+//
+//        if(SignInUtils.getInstance().getCurrentUser()==null){
+//                return "redirect:/login";
+//        }
+        return "/login";
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+    }
 }
