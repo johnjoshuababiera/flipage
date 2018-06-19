@@ -77,8 +77,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(String userName, String password) {
-        User user = repository.findByUsername(userName);
+    public User getUser(String idNumber, String password) {
+        User user = repository.findByIdNumber(idNumber);
         if(user!=null && PASSWORD_ENCODER.matches(password,user.getPassword())){
             return user;
         }
