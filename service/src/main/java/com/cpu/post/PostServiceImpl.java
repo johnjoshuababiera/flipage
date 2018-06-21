@@ -1,6 +1,7 @@
 package com.cpu.post;
 
 import com.cpu.comments.Comment;
+import com.cpu.comments.CommentRepository;
 import com.cpu.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository repository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -42,7 +46,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post addComment(Comment comment) {
         Post post = repository.getOne(comment.getArticleId());
-        post.getComments().add(comment);
+        post.getComments().add(commentRepository.save(comment));
         return repository.save(post);
     }
 }

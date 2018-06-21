@@ -56,6 +56,29 @@
         </ul>
     </div>
 </nav>
+
+
+<div class="modal fade" id="addTopicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Topic</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label>Topic Title</label>
+                <input type="text" class="form-control" id="topicTitle"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary saveTopic">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="content-wrapper">
     <div class="container-fluid">
         <h5 align="center">News Form</h5>
@@ -78,12 +101,30 @@
                                     th:value="${department.id}" th:text="${department.name}"></option>
                         </select>
                     </div>
-                    <div class="col-12">
+                    <div class="col-6">
                         <label  class="col-form-label">PDF File:</label>
-
-                        <input type="file" class="form-control" name="file"/>
+                        <input type="file" class="form-control" name="file" accept=".pdf"/>
                     </div>
-
+                    <!--<div class="col-6">-->
+                        <!--<label  class="col-form-label">Image:</label>-->
+                        <!--<input type="file" class="form-control" name="image" accept=".jpg,.jpeg,.png"/>-->
+                    <!--</div>-->
+                    <div class="col-12">
+                        <h5>Topics</h5>
+                        <ul class="list-group" id="topics" style="margin-bottom: 5px">
+                            <li class="list-group-item d-flex justify-content-between align-items-center" th:each="topic,i:*{topics}" th:text="${topic.title}">
+                                <th:block>
+                                    <input type="hidden" th:field="*{topics[__${i.index}__].id}"/>
+                                    <input type="hidden" th:field="*{topics[__${i.index}__].version}"/>
+                                    <input type="hidden" th:field="*{topics[__${i.index}__].title}"/>
+                                </th:block>
+                                <span><button class="btn btn-warning deleteTopic">Delete</button></span>
+                            </li>
+                        </ul>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-top: 10px" data-target="#addTopicModal">
+                            Add
+                        </button>
+                    </div>
                 </div>
 
                 <div class="col-12" style="margin-top: 10px">
@@ -133,13 +174,33 @@
     <script type="text/javascript" th:src="@{/components/DataTables-1.10.16/js/jquery.dataTables.js}"></script>
     <script type="text/javascript" th:src="@{/components/DataTables-1.10.16/js/dataTables.bootstrap4.js}"></script>
     <script type="text/javascript" th:inline="javascript">
+
+
+
         $(document).ready(function () {
-            var table = $('#newsTable').dataTable({
-                "columnDefs": [
-                    {"width": "30%", "targets": 1}
-                ]
-            });
+
+            $('.saveTopic').on('click', function(){
+                var title =$('#topicTitle').val();
+                var rowIndex = $('#topics')[0].children.length;
+
+                var deleteBtn = ' <span><button type="button" class="btn btn-warning deleteTopic">Delete</button></span>'
+                var titleField = '<input type="hidden" name="topics[' + rowIndex + '].title" value="' + title + '" />';
+
+
+                var row = '<li  class="list-group-item d-flex justify-content-between align-items-center">' +
+                    titleField+ title + deleteBtn +'</li>';
+                $('#topics').append(row);
+                $('#topicTitle').val('');
+                $('#addTopicModal').modal('hide');
+            })
         });
+
+        $(document).on('click', '.deleteTopic', function (event) {
+            var row = $(this).parents('tr');
+            table.row(row).remove().draw();
+        });
+
+
     </script>
 </div>
 </body>
