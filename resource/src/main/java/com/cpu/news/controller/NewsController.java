@@ -4,6 +4,7 @@ package com.cpu.news.controller;
 import com.cpu.department.DepartmentService;
 import com.cpu.news.News;
 import com.cpu.news.NewsService;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -15,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Base64;
 
 @Controller
@@ -48,54 +51,66 @@ public class NewsController {
     public String create(Model model) {
         News news = new News();
         model.addAttribute("departments", departmentService.findAll());
-        model.addAttribute("news",news);
+        model.addAttribute("news", news);
         return "news/news_form";
     }
 
     @RequestMapping("/view")
-    public String view(@RequestParam long id, Model model){
+    public String view(@RequestParam long id, Model model) {
+
         News news = service.findOne(id);
-        model.addAttribute("news",news);
+        model.addAttribute("news", news);
         return "news/news_view";
     }
 
 
     @RequestMapping("/edit")
-    public String edit(@RequestParam long id, Model model){
+    public String edit(@RequestParam long id, Model model) {
         News news = service.findOne(id);
-        model.addAttribute("news",news);
+        model.addAttribute("news", news);
         model.addAttribute("departments", departmentService.findAll());
         return "news/news_form";
     }
 
     @RequestMapping("/delete")
-    public String delete(@RequestParam long id, RedirectAttributes redir){
+    public String delete(@RequestParam long id, RedirectAttributes redir) {
         service.delete(id);
         return "redirect:/page/news/";
     }
 
     @PostMapping("/save")
-    public String saveNews(@ModelAttribute News news, @RequestParam MultipartFile file, RedirectAttributes redirectAttributes){
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "Please select a file to upload");
-            return "redirect:/page/news/";
-        }
+    public String saveNews(@ModelAttribute News news, @RequestParam MultipartFile[] files, RedirectAttributes redir) {
         try {
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(FILE_URL + file.getOriginalFilename());
-            Files.write(path, bytes);
-            news.setFilePath(file.getOriginalFilename());
-            news.setDepartment(departmentService.findOne(news.getDepartmentId()));
-            service.save(news);
-            redirectAttributes.addFlashAttribute("info",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
-
-            return "redirect:/page/news/";
+            News savedNews = service.findOne(news.getId());
+            news.setImage(savedNews.getImage());
+            news.setFilePath(savedNews.getFilePath());
+            for (MultipartFile file : files) {
+                if (!file.isEmpty()) {
+                    continue;
+                }
+                String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+                if (fileExtension.equals("pdf")) {
+                    if (file == null) {
+                        redir.addFlashAttribute("error", "Please select a file to upload");
+                        return "redirect:/page/news/";
+                    }
+//                    Get the file and save it somewhere
+                    byte[] bytes = file.getBytes();
+                    Path path = Paths.get(FILE_URL + file.getOriginalFilename());
+                    Files.write(path, bytes);
+                    news.setFilePath(file.getOriginalFilename());
+                } else {
+                    byte[] imageBytes = Base64.getEncoder().encode(file.getBytes());
+                    news.setImage(new String(imageBytes));
+                }
+                news.setDepartment(departmentService.findOne(news.getDeptId()));
+                service.save(news);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        redir.addFlashAttribute("info", "News Saved!");
         return "redirect:/page/news/";
     }
 }

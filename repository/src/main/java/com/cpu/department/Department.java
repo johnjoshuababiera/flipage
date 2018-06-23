@@ -15,4 +15,5 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 public class Department extends AuditTrail {
     private String name;
+    private String magazineName;
 }

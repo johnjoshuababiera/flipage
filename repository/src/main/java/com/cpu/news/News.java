@@ -31,7 +31,7 @@ public class News extends AuditTrail {
 
     @JsonIgnore
     @Transient
-    private Long departmentId;
+    private Long deptId;
 
 
     public List<Topic> getTopics() {

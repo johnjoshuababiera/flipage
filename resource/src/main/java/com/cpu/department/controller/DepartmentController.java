@@ -2,6 +2,7 @@ package com.cpu.department.controller;
 
 import com.cpu.department.Department;
 import com.cpu.department.DepartmentService;
+import com.cpu.news.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,9 @@ public class DepartmentController
     @Autowired
     private DepartmentService service;
 
+    @Autowired
+    private NewsService newsService;
+
     @RequestMapping("/")
     public String newsList(Model model) {
         model.addAttribute("departments", service.findAll());
@@ -34,7 +38,7 @@ public class DepartmentController
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Department department, RedirectAttributes redirectAttributes){
+    public String save(@ModelAttribute Department department, RedirectAttributes redir){
         service.save(department);
         return "redirect:/page/department/";
 
@@ -43,7 +47,11 @@ public class DepartmentController
 
     @RequestMapping("/delete")
     public String delete(@RequestParam long id, RedirectAttributes redir){
-        service.delete(id);
+        if(service.checkUsed(id)){
+            redir.addFlashAttribute("error", "Department is used! Cannot be deleted");
+        }else{
+            service.delete(id);
+        }
         return "redirect:/page/department/";
     }
 }

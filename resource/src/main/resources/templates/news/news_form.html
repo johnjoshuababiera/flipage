@@ -96,19 +96,19 @@
                     </div>
                     <div class="col-6">
                         <label for="title" class="col-form-label">Department</label>
-                        <select type="" class="form-control" id="department" th:field="*{departmentId}">
+                        <select type="" class="form-control" id="department" th:field="*{deptId}">
                             <option th:each="department : ${departments}"
-                                    th:value="${department.id}" th:text="${department.name}"></option>
+                                    th:value="${department.id}" th:text="${department.magazineName}"></option>
                         </select>
                     </div>
                     <div class="col-6">
                         <label  class="col-form-label">PDF File:</label>
-                        <input type="file" class="form-control" name="file" accept=".pdf"/>
+                        <input type="file" class="form-control" name="files" accept=".pdf"/>
                     </div>
-                    <!--<div class="col-6">-->
-                        <!--<label  class="col-form-label">Image:</label>-->
-                        <!--<input type="file" class="form-control" name="image" accept=".jpg,.jpeg,.png"/>-->
-                    <!--</div>-->
+                    <div class="col-6">
+                        <label  class="col-form-label">Image:</label>
+                        <input type="file" class="form-control" name="files" accept=".jpg,.jpeg,.png"/>
+                    </div>
                     <div class="col-12">
                         <h5>Topics</h5>
                         <ul class="list-group" id="topics" style="margin-bottom: 5px">

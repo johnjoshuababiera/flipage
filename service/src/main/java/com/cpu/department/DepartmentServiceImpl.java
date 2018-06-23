@@ -1,5 +1,7 @@
 package com.cpu.department;
 
+import com.cpu.news.News;
+import com.cpu.news.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     private DepartmentRepository repository;
+
+    @Autowired
+    private NewsRepository newsRepository;
 
     @Override
     public Department save(Department department) {
@@ -25,6 +30,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Department findOne(long id) {
         return repository.findById(id).get();
     }
+
+    @Override
+    public boolean checkUsed(long id) {
+        return newsRepository.findByDepartmentId(id)==null || !newsRepository.findByDepartmentId(id).isEmpty();
+    }
+
 
     @Override
     public void delete(long id) {
