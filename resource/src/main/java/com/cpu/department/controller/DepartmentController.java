@@ -3,6 +3,7 @@ package com.cpu.department.controller;
 import com.cpu.department.Department;
 import com.cpu.department.DepartmentService;
 import com.cpu.news.NewsService;
+import com.cpu.utils.SignInUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,9 @@ public class DepartmentController
 
     @RequestMapping("/")
     public String newsList(Model model) {
+        if (SignInUtils.getInstance().getCurrentUser() == null) {
+            return "redirect:/";
+        }
         model.addAttribute("departments", service.findAll());
         return "department/department_list";
     }
@@ -32,6 +36,9 @@ public class DepartmentController
 
     @RequestMapping("/create")
     public String create(Model model) {
+        if (SignInUtils.getInstance().getCurrentUser() == null) {
+            return "redirect:/";
+        }
         Department department = new Department();
         model.addAttribute("department",department);
         return "department/department_form";
@@ -47,6 +54,9 @@ public class DepartmentController
 
     @RequestMapping("/delete")
     public String delete(@RequestParam long id, RedirectAttributes redir){
+        if (SignInUtils.getInstance().getCurrentUser() == null) {
+            return "redirect:/";
+        }
         if(service.checkUsed(id)){
             redir.addFlashAttribute("error", "Department is used! Cannot be deleted");
         }else{

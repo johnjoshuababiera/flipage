@@ -1,6 +1,8 @@
 package com.cpu.user;
 
 import com.cpu.AuditTrail;
+import com.cpu.department.Department;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +21,13 @@ public class User extends AuditTrail{
     private String email;
     @Lob
     private String image;
-    private String department;
+    @OneToOne
+    private Department department;
     private String password;
     private boolean admin=false;
+
+
+    @Transient
+    @JsonIgnore
+    private Long deptId;
 }

@@ -39,4 +39,9 @@ public class NewsServiceImpl implements NewsService {
         repository.deleteById(id);
     }
 
+
+    @Override
+    public List<News> findByUserId(long id){
+        return repository.findByUserId(id);
+    }
 }

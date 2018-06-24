@@ -7,4 +7,5 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<News,Long> {
 
     List<News> findByDepartmentId(long id);
+    List<News> findByUserId(long id);
 }

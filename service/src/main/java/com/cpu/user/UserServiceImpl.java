@@ -1,6 +1,7 @@
 package com.cpu.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private static BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+    @Value("${adminId}")
+    private String ADMIN_ID;
+    @Value("${adminPassword}")
+    private String ADMIN_PASS;
+
+
 
     @Autowired
     private UserRepository repository;
@@ -54,8 +61,8 @@ public class UserServiceImpl implements UserService {
     public void initializeAdmin() throws Exception {
         User user = new User();
         user.setAdmin(true);
-        user.setUsername("admin");
-        user.setPassword("adminPassword");
+        user.setUsername(ADMIN_ID);
+        user.setPassword(ADMIN_PASS);
         save(user);
     }
 

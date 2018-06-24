@@ -1,7 +1,5 @@
 package com.cpu.news;
 
-import com.cpu.comments.Comment;
-
 import java.util.List;
 
 public interface NewsService {
@@ -12,4 +10,8 @@ public interface NewsService {
     News findOne(long id);
 
     void delete(long id);
+
+    List<News> findByUserId(long id);
+
+
 }

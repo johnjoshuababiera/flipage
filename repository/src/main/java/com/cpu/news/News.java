@@ -20,6 +20,7 @@ import java.util.List;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 public class News extends AuditTrail {
+    private Long userId;
     private String title;
     private String filePath;
     @OneToOne
