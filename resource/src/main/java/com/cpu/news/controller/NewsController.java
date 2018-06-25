@@ -104,7 +104,7 @@ public class NewsController {
                 news.setFilePath(savedNews.getFilePath());
             }
             for (MultipartFile file : files) {
-                if (!file.isEmpty()) {
+                if (file.isEmpty()) {
                     continue;
                 }
                 String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
