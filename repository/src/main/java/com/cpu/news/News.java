@@ -22,6 +22,7 @@ import java.util.List;
 public class News extends AuditTrail {
     private Long userId;
     private String title;
+    private String fileName;
     private String filePath;
     @OneToOne
     private Department department;

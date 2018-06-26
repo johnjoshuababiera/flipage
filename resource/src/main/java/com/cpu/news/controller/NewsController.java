@@ -18,10 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -101,7 +97,7 @@ public class NewsController {
             if(news.getId()!=null){
                 News savedNews = service.findOne(news.getId());
                 news.setImage(savedNews.getImage());
-                news.setFilePath(savedNews.getFilePath());
+                news.setFileName(savedNews.getFileName());
             }
             for (MultipartFile file : files) {
                 if (file.isEmpty()) {
@@ -117,7 +113,8 @@ public class NewsController {
                     byte[] bytes = file.getBytes();
                     Path path = Paths.get(FILE_URL + file.getOriginalFilename());
                     Files.write(path, bytes);
-                    news.setFilePath(file.getOriginalFilename());
+                    news.setFileName(file.getOriginalFilename());
+                    news.setFilePath(FILE_URL + file.getOriginalFilename());
                 } else {
                     byte[] imageBytes = Base64.getEncoder().encode(file.getBytes());
                     news.setImage(new String(imageBytes));

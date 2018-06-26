@@ -3,6 +3,7 @@ package com.cpu.post;
 import com.cpu.AuditTrail;
 import com.cpu.comments.Comment;
 import com.cpu.department.Department;
+import com.cpu.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class Post extends AuditTrail{
 
     private String title;
     @OneToOne
-    private Department department;
+    private User user;
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Comment> comments;
 
