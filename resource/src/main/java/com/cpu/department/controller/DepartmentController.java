@@ -25,7 +25,7 @@ public class DepartmentController
     private NewsService newsService;
 
     @RequestMapping("/")
-    public String newsList(Model model) {
+    public String newsList(Model model, RedirectAttributes redir) {
         if (SignInUtils.getInstance().getCurrentUser() == null) {
             return "redirect:/";
         }
@@ -35,7 +35,7 @@ public class DepartmentController
 
 
     @RequestMapping("/create")
-    public String create(Model model) {
+    public String create(Model model, RedirectAttributes redir) {
         if (SignInUtils.getInstance().getCurrentUser() == null) {
             return "redirect:/";
         }
@@ -47,6 +47,7 @@ public class DepartmentController
     @PostMapping("/save")
     public String save(@ModelAttribute Department department, RedirectAttributes redir){
         service.save(department);
+        redir.addFlashAttribute("success", "Department saved!");
         return "redirect:/page/department/";
 
     }
@@ -62,6 +63,7 @@ public class DepartmentController
         }else{
             service.delete(id);
         }
+        redir.addFlashAttribute("success", "Department deleted");
         return "redirect:/page/department/";
     }
 }

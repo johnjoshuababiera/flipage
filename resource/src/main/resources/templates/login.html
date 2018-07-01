@@ -38,6 +38,19 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" th:src="@{/vendor/sweetalert/swal.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    var error = [[${error}]];
+    var success = [[${success}]];
+    console.log("test");
+    console.log(error);
+    if (null != error) {
+        swal("Error!", error, "error");
+    }else if(null!=success){
+        swal("Success!", success, "success");
+    }
+
+</script>
 </div>
 </body>
 </html>

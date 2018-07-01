@@ -283,7 +283,16 @@
 		<script type="text/javascript"th:src="@{/components/sb-admin/js/sb-admin.js}"></script>
 		<script type="text/javascript" th:src="@{/components/DataTables-1.10.16/js/jquery.dataTables.js}"></script>
 		<script type="text/javascript" th:src="@{/components/DataTables-1.10.16/js/dataTables.bootstrap4.js}"></script>
+		<script type="text/javascript" th:src="@{/vendor/sweetalert/swal.js}"></script>
 		<script type="text/javascript" th:inline="javascript">
+            var error = [[${error}]];
+            var success = [[${success}]];
+            if (null != error) {
+                swal("Error!", error, "error");
+            }else if(null!=success){
+                swal("Success!", success, "success");
+            }
+
             $(document).ready(function () {
                 var table = $('#newsTable').dataTable({
                     "columnDefs": [

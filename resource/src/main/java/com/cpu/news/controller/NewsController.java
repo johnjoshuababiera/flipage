@@ -39,7 +39,7 @@ public class NewsController {
 
 
     @RequestMapping("/")
-    public String newsList(Model model) {
+    public String newsList(Model model, RedirectAttributes redir) {
         User user = SignInUtils.getInstance().getCurrentUser();
         if (user == null) {
             return "redirect:/";
@@ -50,7 +50,7 @@ public class NewsController {
 
 
     @RequestMapping("/create")
-    public String create(Model model) {
+    public String create(Model model, RedirectAttributes redir) {
         if (SignInUtils.getInstance().getCurrentUser() == null) {
             return "redirect:/";
         }
@@ -61,7 +61,7 @@ public class NewsController {
     }
 
     @RequestMapping("/view")
-    public String view(@RequestParam long id, Model model) {
+    public String view(@RequestParam long id, Model model, RedirectAttributes redir) {
         if (SignInUtils.getInstance().getCurrentUser() == null) {
             return "redirect:/";
         }
@@ -72,7 +72,7 @@ public class NewsController {
 
 
     @RequestMapping("/edit")
-    public String edit(@RequestParam long id, Model model) {
+    public String edit(@RequestParam long id, Model model, RedirectAttributes redir) {
         if (SignInUtils.getInstance().getCurrentUser() == null) {
             return "redirect:/";
         }
@@ -85,9 +85,11 @@ public class NewsController {
     @RequestMapping("/delete")
     public String delete(@RequestParam long id, RedirectAttributes redir) {
         if (SignInUtils.getInstance().getCurrentUser() == null) {
+            redir.addFlashAttribute("error", "Please login!");
             return "redirect:/";
         }
         service.delete(id);
+        redir.addFlashAttribute("error", "News deleted!");
         return "redirect:/page/news/";
     }
 
@@ -127,7 +129,7 @@ public class NewsController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        redir.addFlashAttribute("info", "News Saved!");
+        redir.addFlashAttribute("success", "News Saved!");
         return "redirect:/page/news/";
     }
 }
