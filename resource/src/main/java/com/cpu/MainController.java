@@ -4,6 +4,7 @@ import com.cpu.department.Department;
 import com.cpu.department.DepartmentService;
 import com.cpu.user.User;
 import com.cpu.user.UserService;
+import com.cpu.utils.DatabaseDto;
 import com.cpu.utils.DateTimeUtil;
 import com.cpu.utils.SignInUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class MainController {
 
     @RequestMapping("/")
     public String main(Model model, RedirectAttributes redir) {
+        model.addAttribute("database", new DatabaseDto());
         try {
             if (userService.noAdmin()) {
                 userService.initializeAdmin();
@@ -79,30 +81,30 @@ public class MainController {
         return "redirect:/";
     }
 
-//    @RequestMapping("/restoreBackup")
-//    public String restore(@RequestParam String fileName, RedirectAttributes redir) {
-//        String executeCmd = "mysqldump -u" + DB_USERNAME + " -p" + DB_PASSWORD + " --add-drop-database -B flipage -r " + fileName+".sql";
-//
-//        String[] executeCmd = new String[]{&quot;mysql&quot;, &quot;--user=&quot; + dbUserName, &quot;--password=&quot; + dbPassword, &quot;-e&quot;, &quot;source &quot;+source};
-//
-//        Process runtimeProcess;
-//        try {
-//
-//            runtimeProcess = Runtime.getRuntime().exec(executeCmd);
-//            int processComplete = runtimeProcess.waitFor();
-//
-//            if (processComplete == 0) {
-//                System.out.println(&quot;Backup restored successfully&quot;);
-//                return true;
-//            } else {
-//                System.out.println(&quot;Could not restore the backup&quot;);
-//            }
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        return "redirect:/page/news/";
-//    }
+    @PostMapping("/restoreBackup")
+    public String restore(@ModelAttribute DatabaseDto databaseDto, RedirectAttributes redir) {
+        if (SignInUtils.getInstance().getCurrentUser() == null) {
+            redir.addFlashAttribute("error", "Invalid access!");
+            return "redirect:/";
+        }
+        String[] executeCmd = new String[]{"mysql", "--user=" + DB_USERNAME, "--password=" + DB_PASSWORD, "-e", "source "+databaseDto.getFileName()};
+        Process runtimeProcess;
+        try {
+
+            runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+            int processComplete = runtimeProcess.waitFor();
+
+            if (processComplete == 0) {
+                redir.addFlashAttribute("success", databaseDto.getFileName()+" database restored");
+            } else {
+                redir.addFlashAttribute("error", "Restore failed.");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return "redirect:/";
+    }
 
     @RequestMapping("/login")
     public String loginPage(Model model, RedirectAttributes redir) {

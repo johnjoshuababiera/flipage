@@ -3,6 +3,7 @@ package com.cpu.department.controller;
 import com.cpu.department.Department;
 import com.cpu.department.DepartmentService;
 import com.cpu.news.NewsService;
+import com.cpu.utils.DatabaseDto;
 import com.cpu.utils.SignInUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class DepartmentController
 
     @RequestMapping("/")
     public String newsList(Model model, RedirectAttributes redir) {
+        model.addAttribute("database", new DatabaseDto());
         if (SignInUtils.getInstance().getCurrentUser() == null) {
             return "redirect:/";
         }
@@ -36,6 +38,7 @@ public class DepartmentController
 
     @RequestMapping("/create")
     public String create(Model model, RedirectAttributes redir) {
+        model.addAttribute("database", new DatabaseDto());
         if (SignInUtils.getInstance().getCurrentUser() == null) {
             return "redirect:/";
         }

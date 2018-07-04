@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     public void initializeAdmin() throws Exception {
         User user = new User();
         user.setAdmin(true);
-        user.setUsername(ADMIN_ID);
+        user.setIdNumber(ADMIN_ID);
         user.setPassword(ADMIN_PASS);
         save(user);
     }
