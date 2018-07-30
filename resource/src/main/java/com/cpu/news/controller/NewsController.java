@@ -47,7 +47,7 @@ public class NewsController {
             return "redirect:/";
         }
         model.addAttribute("newsList",user.getIdNumber().equals("admin")? service.findAll():service.findByUserId(user.getId()));
-        return "news/news_list.html";
+        return "/news/news_list.html";
     }
 
 
@@ -60,7 +60,7 @@ public class NewsController {
         News news = new News();
         model.addAttribute("departments", departmentService.findAll());
         model.addAttribute("news", news);
-        return "news/news_form.html";
+        return "/news/news_form.html";
     }
 
     @RequestMapping("/view")
@@ -71,7 +71,7 @@ public class NewsController {
         }
         News news = service.findOne(id);
         model.addAttribute("news", news);
-        return "news/news_view.html";
+        return "/news/news_view";
     }
 
 
@@ -84,7 +84,7 @@ public class NewsController {
         News news = service.findOne(id);
         model.addAttribute("news", news);
         model.addAttribute("departments", departmentService.findAll());
-        return "news/news_form.html";
+        return "/news/news_form";
     }
 
     @RequestMapping("/delete")
