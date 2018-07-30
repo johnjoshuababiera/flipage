@@ -119,7 +119,7 @@ public class MainController {
             return "redirect:/page/news/";
         }
         model.addAttribute("user", new User());
-        return "/login";
+        return "/login.html";
     }
 
     @RequestMapping("/signout")
@@ -146,7 +146,7 @@ public class MainController {
     public String register(Model model, RedirectAttributes redir) {
         model.addAttribute("departments", departmentService.findAll());
         model.addAttribute("user", new User());
-        return "/register";
+        return "/register.html";
     }
 
 

@@ -32,7 +32,7 @@ public class DepartmentController
             return "redirect:/";
         }
         model.addAttribute("departments", service.findAll());
-        return "department/department_list";
+        return "department/department_list.html";
     }
 
 
@@ -44,7 +44,7 @@ public class DepartmentController
         }
         Department department = new Department();
         model.addAttribute("department",department);
-        return "department/department_form";
+        return "department/department_form.html";
     }
 
     @PostMapping("/save")
