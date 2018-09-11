@@ -14,4 +14,5 @@ public interface NewsService {
     List<News> findByUserId(long id);
 
 
+    List<News> findByDepartmentId(long departmentId);
 }

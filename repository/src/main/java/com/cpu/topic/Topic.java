@@ -22,8 +22,9 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Topic extends AuditTrail{
     private String title;
+    private String description;
     @OneToMany
-    @JoinColumn
+    @JoinColumn(name="topic_id")
     private List<Comment> comments;
 
     public List<Comment> getComments() {

@@ -10,7 +10,7 @@
     <meta name="mobile-web-app-capable" content="yes"/>
     <link rel="stylesheet" type="text/css" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/vendor/font-awesome/css/font-awesome.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/vendor/sb-admin/sb-admin.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/components/sb-admin/css/sb-admin.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/components/DataTables-1.10.16/css/dataTables.bootstrap4.css}"/>
 
     <!-- Custom styles for this template-->
@@ -21,9 +21,7 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" th:href="@{/}">Flipage</a>
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-            aria-label="Toggle navigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -66,95 +64,26 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link"  th:href="@{/backup}" ><i class="fa fa-fw fa-archive"></i>Backup Database</a>
-            </li>            <li class="nav-item">
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
                     <i class="fa fa-fw fa-sign-out"></i>Logout</a>
             </li>
         </ul>
     </div>
 </nav>
-
-
-<div class="modal fade" id="addTopicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Topic</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <label>Topic Title</label>
-                <input type="text" class="form-control" id="topicTitle"/>
-                <label>Description</label>
-                <input type="text" class="form-control" id="topicDescription"/>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary saveTopic">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="content-wrapper">
     <div class="container-fluid">
-        <h5 align="center">News Form</h5>
-        <div class="container">
-            <form th:action="@{/page/news/save}" th:object="${news}" method="post" enctype="multipart/form-data">
-
-                <input type="hidden" th:field="*{id}">
-                <input type="hidden" th:field="*{version}">
-                <input type="hidden" th:field="*{dateCreated}">
-
-                <div class="row">
-                    <div class="col-6">
-                        <label for="title" class="col-form-label">Title</label>
-                        <input type="text" class="form-control" id="title" th:field="*{title}"/>
-                    </div>
-                    <div class="col-6">
-                        <label for="title" class="col-form-label">Department</label>
-                        <select type="" class="form-control" id="department" th:field="*{deptId}">
-                            <option th:each="department : ${departments}"
-                                    th:value="${department.id}" th:text="${department.magazineName}"></option>
-                        </select>
-                    </div>
-                    <div class="col-6">
-                        <label  class="col-form-label">PDF File:</label>
-                        <input type="file" class="form-control" name="files" accept=".pdf"/>
-                    </div>
-                    <div class="col-6">
-                        <label  class="col-form-label">Image:</label>
-                        <input type="file" class="form-control" name="files" accept=".jpg,.jpeg,.png"/>
-                    </div>
-                    <div class="col-12">
-                        <h5>Topics</h5>
-                        <ul class="list-group" id="topics" style="margin-bottom: 5px">
-                            <li class="list-group-item d-flex justify-content-between align-items-center" th:each="topic,i:*{topics}" >
-                                <th:block>
-                                    <input type="hidden" th:field="*{topics[__${i.index}__].id}"/>
-                                    <input type="hidden" th:field="*{topics[__${i.index}__].version}"/>
-                                    <input type="hidden" th:field="*{topics[__${i.index}__].title}"/>
-                                    <input type="hidden" th:field="*{topics[__${i.index}__].description}"/>
-                                </th:block>
-                                <span th:text="${topic.title}+' - '+${topic.description}"></span>
-                                <span><button type="button" class="btn btn-warning deleteTopic">Delete</button></span>
-                            </li>
-                        </ul>
-
-                    </div>
-                </div>
-
-                <div class="col-12" style="margin-top: 10px">
-                    <button type="submit" class="btn btn-primary float-right">Submit</button>
-                    <button type="button" class="btn btn-primary float-right" style="margin-right: 10px" data-toggle="modal" data-target="#addTopicModal">Add Topic</button>
-                    <a th:href="@{/page/news/}" class="btn btn-danger">Back</a>
-                </div>
-
-
-            </form>
-        </div>
+        <h5 align="center" th:text="${news.title} +' comments'">Comments</h5>
+        <ul class="list-group" id="topics" style="margin-bottom: 5px">
+            <li class="list-group-item d-flex justify-content-between align-items-center" th:each="comment,i:*{comments}" >
+                <span th:text="${comment.message}+' - '+${comment.user.username}"></span>
+                <span><a th:href="@{/page/comment/news/delete(id=${comment.id}, newsId=${news.id})}" onclick="delete_comment(event)" class="btn btn-warning">Delete</a></span>
+            </li>
+        </ul>
+    </div>
+    <div class="col-12" style="margin-top: 10px">
+        <a th:href="@{/page/comment/news}" class="btn btn-danger">Back</a>
     </div>
     <footer class="sticky-footer">
         <div class="container">
@@ -219,42 +148,11 @@
     <script type="text/javascript" th:src="@{/vendor/sweetalert/swal.js}"></script>
     <script type="text/javascript" th:inline="javascript">
 
-        var error = [[${error}]];
-        var success = [[${success}]];
-        if (null != error) {
-            swal("Error!", error, "error");
-        }else if(null!=success){
-            swal("Success!", success, "success");
-        }
-
-
-        $(document).ready(function () {
-
-            $('.saveTopic').on('click', function(){
-                var title =$('#topicTitle').val();
-                var description =$('#topicDescription').val();
-                var rowIndex = $('#topics')[0].children.length;
-
-                var deleteBtn = ' <span><button type="button" class="btn btn-warning deleteTopic">Delete</button></span>'
-                var titleField = '<input type="hidden" name="topics[' + rowIndex + '].title" value="' + title + '" />';
-                var descriptionField = '<input type="hidden" name="topics[' + rowIndex + '].description" value="' + description + '" />';
-                var titleSpan = '<span>'+title+' - '+ description+ '</span>';
-
-
-                var row = '<li  class="list-group-item d-flex justify-content-between align-items-center">' +
-                    titleField+descriptionField+ titleSpan + deleteBtn +'</li>';
-                $('#topics').append(row);
-                $('#topicTitle').val('');
-                $('#topicDescription').val('');
-                $('#addTopicModal').modal('hide');
-            })
-        });
-
-        $(document).on('click', '.deleteTopic', function (event) {
-            var evt = $(this);
+        delete_comment = function(e) {
+            var href = e.target.href;
+            e.preventDefault();
             swal({
-                title: 'Are you sure you want to delete topic?',
-                text: "You won't be able to revert this!",
+                title: 'Are you sure you want to delete comment?',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -262,13 +160,18 @@
                 confirmButtonText: 'Delete'
             }).then((result) => {
                 if (result.value) {
-                    evt.parents('li').remove();
+                    window.location=href;
                 }
             })
+        };
 
-        });
-
-
+        var error = [[${error}]];
+        var success = [[${success}]];
+        if (null != error) {
+            swal("Error!", error, "error");
+        }else if(null!=success){
+            swal("Success!", success, "success");
+        }
     </script>
 </div>
 </body>

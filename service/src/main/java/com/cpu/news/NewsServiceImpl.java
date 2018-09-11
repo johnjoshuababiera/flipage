@@ -44,4 +44,9 @@ public class NewsServiceImpl implements NewsService {
     public List<News> findByUserId(long id){
         return repository.findByUserId(id);
     }
+
+    @Override
+    public List<News> findByDepartmentId(long departmentId) {
+        return repository.findByDepartmentId(departmentId);
+    }
 }

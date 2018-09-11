@@ -71,6 +71,7 @@ public class NewsController {
         }
         News news = service.findOne(id);
         model.addAttribute("news", news);
+        model.addAttribute("pdfUrl", FILE_URL+news.getFileName());
         return "/news/news_view";
     }
 
@@ -94,7 +95,7 @@ public class NewsController {
             return "redirect:/";
         }
         service.delete(id);
-        redir.addFlashAttribute("error", "News deleted!");
+        redir.addFlashAttribute("success", "News deleted!");
         return "redirect:/page/news/";
     }
 

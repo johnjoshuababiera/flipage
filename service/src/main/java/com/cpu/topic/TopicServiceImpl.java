@@ -5,6 +5,8 @@ import com.cpu.comments.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TopicServiceImpl implements TopicService{
 
@@ -19,5 +21,10 @@ public class TopicServiceImpl implements TopicService{
         Topic topic = repository.getOne(comment.getArticleId());
         topic.getComments().add(commentRepository.save(comment));
         return repository.save(topic);
+    }
+
+    @Override
+    public List<Topic> findAll() {
+        return repository.findAll();
     }
 }

@@ -27,6 +27,7 @@ public class News extends AuditTrail {
     @OneToOne
     private Department department;
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinColumn(name="news_id")
     private List<Topic> topics;
     @Lob
     private String image;

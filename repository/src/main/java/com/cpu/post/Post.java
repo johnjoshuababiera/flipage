@@ -24,7 +24,8 @@ public class Post extends AuditTrail{
     private String title;
     @OneToOne
     private User user;
-    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany
+    @JoinColumn(name="post_id")
     private List<Comment> comments;
 
     @JsonIgnore
