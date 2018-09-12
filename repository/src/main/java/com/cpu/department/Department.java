@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 
 @Data
 @AllArgsConstructor
@@ -16,4 +17,6 @@ import javax.persistence.Entity;
 public class Department extends AuditTrail {
     private String name;
     private String magazineName;
+    @Lob
+    private String image;
 }

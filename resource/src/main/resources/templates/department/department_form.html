@@ -28,30 +28,34 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="News">
                 <a class="nav-link" th:href="@{/page/news/}">
-                    <i class="fa fa-fw fa-dashboard"></i>
+                    <i class="fa fa-fw fa fa-newspaper-o"></i>
                     <span class="nav-link-text">News</span>
                 </a>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Departmanets">
                 <a class="nav-link" th:href="@{/page/department/}">
-                    <i class="fa fa-fw fa-area-chart"></i>
+                    <i class="fa fa-fw fa fa-university"></i>
                     <span class="nav-link-text">Department</span>
                 </a>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-                <a class="nav-link" th:href="@{/page/comment/news}">
-                    <i class="fa fa-fw fa-area-chart"></i>
-                    <span class="nav-link-text">News Comments</span>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Comments">
+                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents"
+                   data-parent="#exampleAccordion">
+                    <i class="fa fa-fw fa-comments"></i>
+                    <span class="nav-link-text">Comments</span>
                 </a>
+                <ul class="sidenav-second-level collapse" id="collapseComponents">
+                    <li>
+                        <a th:href="@{/page/comment/news}">News</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/page/comment/forums}">Forums</a>
+                    </li>
+                </ul>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-                <a class="nav-link" th:href="@{/page/comment/forums}">
-                    <i class="fa fa-fw fa-area-chart"></i>
-                    <span class="nav-link-text">Forums Comments</span>
-                </a>
-            </li>
+
         </ul>
         <ul class="navbar-nav sidenav-toggler">
             <li class="nav-item">
@@ -62,10 +66,10 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link"  data-toggle="modal" data-target="#restoreModal"></i>Restore Database</a>
+                <a class="nav-link" data-toggle="modal" data-target="#restoreModal"></i>Restore Database</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link"  th:href="@{/backup}" ><i class="fa fa-fw fa-archive"></i>Backup Database</a>
+                <a class="nav-link" th:href="@{/backup}"><i class="fa fa-fw fa-archive"></i>Backup Database</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
@@ -78,17 +82,24 @@
     <div class="container-fluid">
         <h5 align="center">Department Form</h5>
         <div class="container">
-            <form th:action="@{/page/department/save}" th:object="${department}" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="title">Name</label>
-                    <input type="text" class="form-control" id="title" th:field="*{name}"/>
+            <form th:action="@{/page/department/save}" th:object="${department}" method="post"
+                  enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="title">Name</label>
+                        <input type="text" class="form-control" id="title" th:field="*{name}"/>
+                    </div>
+                    <div class="col-6">
+                        <label for="title">Magazine Name</label>
+                        <input type="text" class="form-control" id="magazineName" th:field="*{magazineName}"/>
+                    </div>
+                    <div class="col-6">
+                        <label class="col-form-label">Image:</label>
+                        <input type="file" class="form-control" name="file" accept=".jpg,.jpeg,.png"/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="title">Magazine Name</label>
-                    <input type="text" class="form-control" id="magazineName" th:field="*{magazineName}"/>
-                </div>
-                <button type="submit" class="btn btn-primary float-right">Submit</button>
-                <a th:href="@{/page/department/}" class="btn btn-danger">Back</a>
+                <a th:href="@{/page/department/}" style="margin-top: 10px" class="btn btn-danger">Back</a>
+                <button type="submit" style="margin-top: 10px" class="btn btn-primary float-right">Submit</button>
             </form>
         </div>
     </div>
@@ -117,7 +128,7 @@
                 <div class="modal-body">Are you sure you want to logout?</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary"  th:href="@{/signout}" >Logout</a>
+                    <a class="btn btn-primary" th:href="@{/signout}">Logout</a>
                 </div>
             </div>
         </div>
@@ -159,7 +170,7 @@
         var success = [[${success}]];
         if (null != error) {
             swal("Error!", error, "error");
-        }else if(null!=success){
+        } else if (null != success) {
             swal("Success!", success, "success");
         }
 

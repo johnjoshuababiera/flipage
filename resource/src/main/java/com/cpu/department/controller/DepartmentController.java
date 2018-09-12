@@ -2,6 +2,7 @@ package com.cpu.department.controller;
 
 import com.cpu.department.Department;
 import com.cpu.department.DepartmentService;
+import com.cpu.news.News;
 import com.cpu.news.NewsService;
 import com.cpu.utils.DatabaseDto;
 import com.cpu.utils.SignInUtils;
@@ -12,12 +13,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
+import java.util.Base64;
 
 @Controller
 @RequestMapping("/page/department")
-public class DepartmentController
-{
+public class DepartmentController {
 
     @Autowired
     private DepartmentService service;
@@ -43,27 +47,35 @@ public class DepartmentController
             return "redirect:/";
         }
         Department department = new Department();
-        model.addAttribute("department",department);
+        model.addAttribute("department", department);
         return "/department/department_form.html";
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Department department, RedirectAttributes redir){
-        service.save(department);
-        redir.addFlashAttribute("success", "Department saved!");
-        return "redirect:/page/department/";
+    public String save(@ModelAttribute Department department, RedirectAttributes redir, @RequestParam MultipartFile file) {
+        try {
 
+            byte[] imageBytes = Base64.getEncoder().encode(file.getBytes());
+            department.setImage(new String(imageBytes));
+            service.save(department);
+            redir.addFlashAttribute("success", "Department saved!");
+            return "redirect:/page/department/";
+        } catch (IOException e) {
+            e.printStackTrace();
+            redir.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/page/department/create";
     }
 
 
     @RequestMapping("/delete")
-    public String delete(@RequestParam long id, RedirectAttributes redir){
+    public String delete(@RequestParam long id, RedirectAttributes redir) {
         if (SignInUtils.getInstance().getCurrentUser() == null) {
             return "redirect:/";
         }
-        if(service.checkUsed(id)){
+        if (service.checkUsed(id)) {
             redir.addFlashAttribute("error", "Department is used! Cannot be deleted");
-        }else{
+        } else {
             service.delete(id);
         }
         redir.addFlashAttribute("success", "Department deleted");

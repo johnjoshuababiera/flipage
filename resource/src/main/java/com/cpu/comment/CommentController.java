@@ -57,16 +57,43 @@ public class CommentController {
         return "/comment/news_comments.html";
     }
 
+    @RequestMapping("/forums/view")
+    public String viewForumscomment(@RequestParam long id, Model model, RedirectAttributes redir) {
+        model.addAttribute("database", new DatabaseDto());
+        if (SignInUtils.getInstance().getCurrentUser() == null) {
+            return "redirect:/";
+        }
+
+        try {
+            model.addAttribute("news", postService.findOne(id));
+            model.addAttribute("comments", service.findByPostId(id));
+        } catch (Exception e) {
+            redir.addFlashAttribute("error", e.getMessage());
+            return "redirect:/page/comment/forums";
+        }
+        return "/comment/forums_comments.html";
+    }
+
 
     @RequestMapping("/news/delete")
-    public String newsList(@RequestParam Long id, @RequestParam Long newsId, Model model, RedirectAttributes redir) {
+    public String deleteNewscomment(@RequestParam Long id, @RequestParam Long newsId, Model model, RedirectAttributes redir) {
         if (SignInUtils.getInstance().getCurrentUser() == null) {
             return "redirect:/";
         }
         service.removeById(id);
+        redir.addFlashAttribute("success", "Comment successfully removed.");
         return "redirect:/page/comment/news/view?id="+newsId;
     }
 
+    @RequestMapping("/forums/delete")
+    public String deleteForumsComment(@RequestParam Long id, @RequestParam Long newsId, Model model, RedirectAttributes redir) {
+        if (SignInUtils.getInstance().getCurrentUser() == null) {
+            return "redirect:/";
+        }
+        service.removeById(id);
+        redir.addFlashAttribute("success", "Comment successfully removed.");
+        return "redirect:/page/comment/forums/view?id="+newsId;
+    }
 
     @RequestMapping("/forums")
     public String forumsList(Model model, RedirectAttributes redir) {
@@ -76,17 +103,6 @@ public class CommentController {
         }
         model.addAttribute("posts", postService.findAll());
         return "/comment/forums_list.html";
-    }
-
-    @RequestMapping("/forums/view")
-    public String viewForumComments(@RequestParam long id, Model model, RedirectAttributes redir) {
-        model.addAttribute("database", new DatabaseDto());
-        if (SignInUtils.getInstance().getCurrentUser() == null) {
-            return "redirect:/";
-        }
-
-        model.addAttribute("comments", service.findByPostId(id));
-        return "/comment/news_list.html";
     }
 
 

@@ -7,6 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FlipageApplication {
     public static void main(String[] args) {
         SpringApplication.run(FlipageApplication.class, args);
+
+
     }
+
+
 
 }

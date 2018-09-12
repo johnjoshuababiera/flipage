@@ -26,30 +26,33 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="News">
                 <a class="nav-link" th:href="@{/page/news/}">
-                    <i class="fa fa-fw fa-dashboard"></i>
+                    <i class="fa fa-fw fa fa-newspaper-o"></i>
                     <span class="nav-link-text">News</span>
                 </a>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Departmanets">
                 <a class="nav-link" th:href="@{/page/department/}">
-                    <i class="fa fa-fw fa-area-chart"></i>
+                    <i class="fa fa-fw fa fa-university"></i>
                     <span class="nav-link-text">Department</span>
                 </a>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-                <a class="nav-link" th:href="@{/page/comment/news}">
-                    <i class="fa fa-fw fa-area-chart"></i>
-                    <span class="nav-link-text">News Comments</span>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Comments">
+                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+                    <i class="fa fa-fw fa-comments"></i>
+                    <span class="nav-link-text">Comments</span>
                 </a>
+                <ul class="sidenav-second-level collapse" id="collapseComponents">
+                    <li>
+                        <a th:href="@{/page/comment/news}">News</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/page/comment/forums}">Forums</a>
+                    </li>
+                </ul>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-                <a class="nav-link" th:href="@{/page/comment/forums}">
-                    <i class="fa fa-fw fa-area-chart"></i>
-                    <span class="nav-link-text">Forums Comments</span>
-                </a>
-            </li>
+
         </ul>
         <ul class="navbar-nav sidenav-toggler">
             <li class="nav-item">
@@ -91,12 +94,11 @@
                         <td th:text="${news.title}"></td>
                         <td th:text="${news.department.name}"></td>
                         <td th:text="${news.department.magazineName}"></td>
-                        <td><a th:href="@{/page/comment/news/view(id=${news.id})}" class="btn btn-info">View Comments</a></td>
+                        <td><a th:href="@{/page/comment/news/view(id=${news.id})}" class="btn btn-info">Comments</a></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <a th:href="@{/page/news/create}" class="btn btn-success float-right">Add</a>
         </div>
     </div>
     <footer class="sticky-footer">
@@ -164,7 +166,6 @@
 
         var error = [[${error}]];
         var success = [[${success}]];
-        console.log(error);
         if (null != error) {
             swal("Error!", error, "error");
         }else if(null!=success){
@@ -174,7 +175,10 @@
         $(document).ready(function () {
             var table = $('#newsTable').dataTable({
                 "columnDefs": [
-                    { "width": "30%", "targets": 2 }
+                    { "width": "30%", "targets": 0 },
+                    { "width": "30%", "targets": 1 },
+                    { "width": "30%", "targets": 2 },
+                    { "width": "10%", "targets": 3 }
                 ]
             });
         });
