@@ -97,7 +97,7 @@
                         <td>
                             <a th:href="@{/page/news/view(id=${news.id})}" class="btn btn-info">View</a>
                             <a th:href="@{/page/news/edit(id=${news.id})}" class="btn btn-info">Edit</a>
-                            <a th:href="@{/page/news/delete(id=${news.id})}" class="btn btn-warning">Delete</a>
+                            <a th:href="@{/page/news/delete(id=${news.id})}" onclick="delete_news(event)" class="btn btn-warning">Delete</a>
                         </td>
                     </tr>
                     </tbody>
@@ -176,6 +176,23 @@
         }else if(null!=success){
             swal("Success!", success, "success");
         }
+
+        delete_news = function(e) {
+            var href = e.target.href;
+            e.preventDefault();
+            swal({
+                title: 'Are you sure you want to delete news?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Delete'
+            }).then((result) => {
+                if (result.value) {
+                    window.location=href;
+                }
+            })
+        };
 
         $(document).ready(function () {
             var table = $('#newsTable').dataTable({
