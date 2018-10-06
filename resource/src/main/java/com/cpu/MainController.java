@@ -136,6 +136,10 @@ public class MainController {
             redir.addFlashAttribute("error","Invalid username/password!");
             return "redirect:/login";
         }
+        if (!savedUser.isAdmin()) {
+            redir.addFlashAttribute("error","Invalid restrictions!");
+            return "redirect:/login";
+        }
         SignInUtils.getInstance().SignIn(savedUser);
         return "redirect:/";
 
