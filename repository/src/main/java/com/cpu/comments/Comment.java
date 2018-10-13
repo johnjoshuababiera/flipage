@@ -18,5 +18,6 @@ public class Comment extends AuditTrail{
     private long articleId;
     @OneToOne
     private User user;
+    @Column(length = 1000)
     private String message;
 }

@@ -22,6 +22,7 @@ import java.util.List;
 public class Post extends AuditTrail{
 
     private String title;
+    @Column(length = 1000)
     private String description;
     @OneToOne
     private User user;
