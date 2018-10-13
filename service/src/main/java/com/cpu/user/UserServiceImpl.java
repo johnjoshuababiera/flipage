@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
             savedUser.setImage(user.getImage());
             savedUser.setEmail(user.getEmail());
         }
-        return null;
+        return repository.save(savedUser);
 
     }
 
