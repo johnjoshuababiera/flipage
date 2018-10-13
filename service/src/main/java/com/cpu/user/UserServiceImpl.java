@@ -46,8 +46,9 @@ public class UserServiceImpl implements UserService {
             savedUser.setIdNumber(user.getIdNumber());
             savedUser.setImage(user.getImage());
             savedUser.setEmail(user.getEmail());
+            return repository.save(savedUser);
         }
-        return repository.save(savedUser);
+        return null;
 
     }
 
@@ -69,15 +70,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean hasDuplicate(User user) throws Exception {
         User duplicateIdNo = repository.findByIdNumber(user.getIdNumber());
-        if(duplicate(user, duplicateIdNo)){
+        if(isDuplicate(user, duplicateIdNo)){
             throw new Exception("ID number is already in used!");
         }
         User duplicate = repository.findByUsername(user.getUsername());
-        if(duplicate(user, duplicate)){
+        if(isDuplicate(user, duplicate)){
             throw new Exception("Duplicate username!");
         }
         duplicate= repository.findByEmail(user.getUsername());
-        if(duplicate(user, duplicate)){
+        if(isDuplicate(user, duplicate)){
             throw new Exception("Duplicate email!");
         }
         return false;
@@ -93,8 +94,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private boolean duplicate(User user, User duplicate) {
-        return duplicate!=null && duplicate.getId()==user.getId();
+    private boolean isDuplicate(User user, User duplicate) {
+        return duplicate!=null && duplicate.getId()!=user.getId();
     }
 
     private void encryptPassword(User user) {
