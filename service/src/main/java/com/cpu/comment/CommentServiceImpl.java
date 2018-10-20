@@ -40,4 +40,11 @@ public class CommentServiceImpl implements CommentService {
     public void removeById(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public void approve(Long id) {
+        Comment comment = repository.findById(id).get();
+        comment.setActive(true);
+        repository.save(comment);
+    }
 }

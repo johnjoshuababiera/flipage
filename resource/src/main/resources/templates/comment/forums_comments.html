@@ -81,7 +81,10 @@
         <ul class="list-group" id="topics" style="margin-bottom: 5px">
             <li class="list-group-item d-flex justify-content-between align-items-center" th:each="comment,i:*{comments}" >
                 <span th:text="${comment.message}+' - '+${comment.user.username}"></span>
-                <span><a th:href="@{/page/comment/forums/delete(id=${comment.id}, newsId=${news.id})}" onclick="delete_comment(event)" class="btn btn-warning">Delete</a></span>
+                <span>
+                    <a th:unless="${comment.active}" th:href="@{/page/comment/forums/approve(id=${comment.id}, newsId=${news.id})}" class="btn btn-primary float-right">Approve</a>
+                    <a th:href="@{/page/comment/forums/delete(id=${comment.id}, newsId=${news.id})}" onclick="delete_comment(event)" class="btn btn-warning float-right">Delete</a>
+                </span>
             </li>
         </ul>
     </div>

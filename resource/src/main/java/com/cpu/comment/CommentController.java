@@ -85,6 +85,16 @@ public class CommentController {
         return "redirect:/page/comment/news/view?id="+newsId;
     }
 
+    @RequestMapping("/news/approve")
+    public String approveNewsComment(@RequestParam Long id, @RequestParam Long newsId, Model model, RedirectAttributes redir) {
+        if (SignInUtils.getInstance().getCurrentUser() == null) {
+            return "redirect:/";
+        }
+        service.approve(id);
+        redir.addFlashAttribute("success", "Comment approved.");
+        return "redirect:/page/comment/news/view?id="+newsId;
+    }
+
     @RequestMapping("/forums/delete")
     public String deleteForumsComment(@RequestParam Long id, @RequestParam Long newsId, Model model, RedirectAttributes redir) {
         if (SignInUtils.getInstance().getCurrentUser() == null) {
@@ -92,6 +102,16 @@ public class CommentController {
         }
         service.removeById(id);
         redir.addFlashAttribute("success", "Comment successfully removed.");
+        return "redirect:/page/comment/forums/view?id="+newsId;
+    }
+
+    @RequestMapping("/forums/approve")
+    public String approveForumsComment(@RequestParam Long id, @RequestParam Long newsId, Model model, RedirectAttributes redir) {
+        if (SignInUtils.getInstance().getCurrentUser() == null) {
+            return "redirect:/";
+        }
+        service.approve(id);
+        redir.addFlashAttribute("success", "Comment approved.");
         return "redirect:/page/comment/forums/view?id="+newsId;
     }
 

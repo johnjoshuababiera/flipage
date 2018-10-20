@@ -1,10 +1,12 @@
 package com.cpu.news;
 
+import com.cpu.AuditTrail;
 import com.cpu.comments.Comment;
 import com.cpu.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -47,6 +49,8 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<News> findByDepartmentId(long departmentId) {
-        return repository.findByDepartmentId(departmentId);
+        List<News> news = repository.findByDepartmentId(departmentId);
+        news.sort(Comparator.comparingLong(AuditTrail::getDateCreated).reversed());
+        return news;
     }
 }

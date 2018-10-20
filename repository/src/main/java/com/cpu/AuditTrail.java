@@ -5,9 +5,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
+@MappedSuperclass
 @Data
 @EqualsAndHashCode(of = {"id", "version"})
-@MappedSuperclass
 public class AuditTrail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -10,4 +10,5 @@ public interface CommentService {
     List<Comment> findByPostId(long id);
 
     void removeById(Long id);
+    void approve(Long id);
 }

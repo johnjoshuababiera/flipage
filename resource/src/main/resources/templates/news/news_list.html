@@ -78,7 +78,6 @@
 <div class="content-wrapper">
     <div class="container-fluid">
         <h5 align="center">News List</h5>
-        <div class="container">
             <div id="divNewsTable">
                 <table id="newsTable" class="table table-striped table-bordered">
                     <thead>
@@ -86,6 +85,7 @@
                         <th>Title</th>
                         <th>Department</th>
                         <th>Magazine</th>
+                        <th>Date Published</th>
                         <th class="nosort"></th>
                     </tr>
                     </thead>
@@ -94,17 +94,17 @@
                         <td th:text="${news.title}"></td>
                         <td th:text="${news.department.name}"></td>
                         <td th:text="${news.department.magazineName}"></td>
+                        <td th:text="${#dates.format(new java.util.Date(news.dateCreated), 'MMMM d, YYYY')}"></td>
                         <td>
-                            <a th:href="@{/page/news/view(id=${news.id})}" class="btn btn-info">View</a>
-                            <a th:href="@{/page/news/edit(id=${news.id})}" class="btn btn-info">Edit</a>
-                            <a th:href="@{/page/news/delete(id=${news.id})}" onclick="delete_news(event)" class="btn btn-warning">Delete</a>
+                            <a th:href="@{/page/news/view(id=${news.id})}" class="btn btn-info btn-xs">View</a>
+                            <a th:href="@{/page/news/edit(id=${news.id})}" class="btn btn-info btn-xs">Edit</a>
+                            <a th:href="@{/page/news/delete(id=${news.id})}" onclick="delete_news(event)" class="btn btn-warning btn-xs">Delete</a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <a th:href="@{/page/news/create}" class="btn btn-primary float-right">Add</a>
-        </div>
+        <a th:href="@{/page/news/create}" class="btn btn-primary float-right">Add</a>
     </div>
     <footer class="sticky-footer">
         <div class="container">
@@ -197,10 +197,11 @@
         $(document).ready(function () {
             var table = $('#newsTable').dataTable({
                 "columnDefs": [
-                    { "width": "35%", "targets": 0 },
+                    { "width": "25%", "targets": 0 },
                     { "width": "20%", "targets": 1 },
                     { "width": "20%", "targets": 2 },
-                    { "width": "20%", "targets": 3 }
+                    { "width": "20%", "targets": 3 },
+                    { "width": "15%", "targets": 4 }
                 ]
             });
         });

@@ -104,16 +104,20 @@
     <div class="container-fluid">
         <h5 align="center">News Form</h5>
         <div class="container">
-            <form th:action="@{/page/news/save}" th:object="${news}" method="post" enctype="multipart/form-data">
+            <form id="newsForm" th:action="@{/page/news/save}" th:object="${news}" method="post" enctype="multipart/form-data">
 
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:field="*{version}">
-                <input type="hidden" th:field="*{dateCreated}">
 
                 <div class="row">
                     <div class="col-6">
                         <label for="title" class="col-form-label">Title</label>
                         <input type="text" class="form-control" id="title" th:field="*{title}"/>
+                    </div>
+                    <div class="col-6">
+                        <label for="date" class="col-form-label">Date Published</label>
+                        <input type="date" class="form-control" id="date"/>
+                        <input type="hidden" class="form-control" id="dateField" th:field="*{dateCreated}"/>
                     </div>
                     <div class="col-6">
                         <label for="title" class="col-form-label">Department</label>
@@ -149,7 +153,7 @@
                 </div>
 
                 <div class="col-12" style="margin-top: 10px">
-                    <button type="submit" class="btn btn-primary float-right">Submit</button>
+                    <button type="button" class="btn btn-primary float-right saveBtn">Submit</button>
                     <button type="button" class="btn btn-primary float-right" style="margin-right: 10px" data-toggle="modal" data-target="#addTopicModal">Add Topic</button>
                     <a th:href="@{/page/news/}" class="btn btn-danger">Back</a>
                 </div>
@@ -229,8 +233,24 @@
             swal("Success!", success, "success");
         }
 
+        $(document).on('click', '.saveBtn', function (event) {
+            if($('#date').val() && $('#title').val()){
+                var date = new Date($('#date').val());
+                $("#dateField").val(date.getTime());
+                $('#newsForm').submit();
+            }else{
+                swal("Error!", "Please fill up all fields to continue!", "error");
+            }
+        });
 
         $(document).ready(function () {
+
+            var date = [[${news.dateCreated}]];
+            var dateValue = (date!=null && date!=0)?new Date(date): new Date();
+            $('#dateField').val(dateValue.getTime());
+            document.getElementById("date").valueAsDate = dateValue;
+
+
 
             $('.saveTopic').on('click', function(){
                 var title =$('#topicTitle').val();
