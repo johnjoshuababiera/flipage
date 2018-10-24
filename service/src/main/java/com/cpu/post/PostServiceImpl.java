@@ -2,11 +2,11 @@ package com.cpu.post;
 
 import com.cpu.comments.Comment;
 import com.cpu.comments.CommentRepository;
-import com.cpu.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -16,9 +16,6 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private CommentRepository commentRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Override
     public Post save(Post post) {
@@ -30,12 +27,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> findAll() {
-        return repository.findAll();
+        List<Post> posts=repository.findAll();
+        removeUnactiveComments(posts);
+        return posts;
     }
 
     @Override
     public Post findOne(long id) {
-        return repository.getOne(id);
+        Post post = repository.findById(id).get();
+        post.setComments(post.getComments().stream().filter(Comment::isActive).collect(Collectors.toList()));
+        return post;
     }
 
     @Override
@@ -48,5 +49,9 @@ public class PostServiceImpl implements PostService {
         Post post = repository.getOne(comment.getArticleId());
         post.getComments().add(commentRepository.save(comment));
         return repository.save(post);
+    }
+
+    private void removeUnactiveComments(List<Post> posts){
+        posts.forEach(post -> post.setComments(post.getComments().stream().filter(Comment::isActive).collect(Collectors.toList())));
     }
 }
