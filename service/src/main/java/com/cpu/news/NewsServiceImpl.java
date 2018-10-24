@@ -20,9 +20,6 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public News save(News news) {
-        if(news.getId()==null){
-            news.setDateCreated(System.currentTimeMillis());
-        }
         return repository.save(news);
     }
 
